@@ -1,0 +1,25 @@
+{
+  "name": "community-forum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/me-oniichan/community-forum.git"
+  },
+  "author": "me-oniichan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/me-oniichan/community-forum/issues"
+  },
+  "homepage": "https://github.com/me-oniichan/community-forum#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "mongoose": "^8.2.4"
+  }
+}
