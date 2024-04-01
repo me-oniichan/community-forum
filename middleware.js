@@ -5,12 +5,9 @@ async function authMiddleware(req, res, next) {
     const user = await User.findOne({ _id: req.session.user }).exec();
     if (user) {
       req.user = user;
-      next();
-      return;
     }
   }
-  res.status(401);
-  res.send("Unauthorized");
+  next()
 }
 
 module.exports = {

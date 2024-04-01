@@ -1,0 +1,25 @@
+extends base.pug
+
+block content
+  .container.border.rounded.p-3(style="max-width: 500px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);")
+        h2 Sign Up
+        form(action="/auth/signup", method="POST")
+          .form-group
+            label(for="username") Username
+            input#username.form-control(type="text", name="username", required)
+            br
+          .form-group
+            label(for="email") Email
+            input#email.form-control(type="email", name="email", required)
+            br
+          .form-group
+            label(for="password") Password
+            input#password.form-control(type="password", name="password", required)
+            br
+          .form-group
+            label(for="confirm_password") Confirm Password
+            input#confirm_password.form-control(type="password", name="confirm_password", required)
+            br
+          .form-group
+            button.btn.btn-primary.mb-3(type="submit") Sign Up
+          a(href="/auth/login") Already have an account? Login here.

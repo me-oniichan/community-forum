@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const route = require('./auth/routes');
 const session = require('express-session');
+const { authMiddleware } = require('./middleware');
 const mongoSession = require('connect-mongodb-session')(session);
 require('dotenv').config();
 
@@ -15,7 +16,7 @@ const store = new mongoSession({
 const app = express();
 const port = 3000;
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 app.use(session({
     secret:process.env.SECRET_KEY,
@@ -24,10 +25,14 @@ app.use(session({
     store:store,
 }))
 
+
 mongoose.connect("mongodb://localhost/test")
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get('/', authMiddleware, (req, res) => {
+    if(req.user === undefined){
+        return res.redirect("/auth/login")
+    }
+    res.send("Hello World");
 });
 
 app.use("/auth",route);

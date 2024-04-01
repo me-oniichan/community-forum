@@ -1,0 +1,18 @@
+extends base.pug
+
+block title
+  title Login Page
+
+block content
+    div(class="container-sm border p-3 rounded" style="max-width: 500px; position: absolute; top: 50%; left: 50%; transition: transform 1s ease-in-out; transform: translate(-50%, -50%);")
+        h1 Login
+        form(action="/auth/login", method="POST", class="needs-validation")
+            label(for="username", class="form-label") Username:
+            input(type="text", id="username", name="username", class="form-control", required)
+            br
+            label(for="password", class="form-label") Password:
+            input(type="password", id="password", name="password", class="form-control", required)
+            br
+            input(type="submit", value="Login", class="btn btn-primary mb-3")
+            br
+            a(href="/auth/signup") Don't have an account? Register here.

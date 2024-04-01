@@ -8,9 +8,17 @@ const router = express.Router();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
+// send login page
+router.get('/login', (req, res) => {
+  res.render('../templates/login.pug');
+});
 
 // Login route
-router.post('/login', async (req, res) => {
+router.post('/login', authMiddleware, async (req, res) => {
+  if(req.user !== undefined){
+    return res.redirect("/")
+  }
+
   const {username, password} = req.body;
   
   const user = await User.findOne({username})?.select("_id password").exec()
@@ -30,8 +38,17 @@ router.get('/logout', authMiddleware, (req, res) => {
   res.send("logged out");
 });
 
+// sed signup page
+router.get('/signup', (req, res) => {
+  res.render('../templates/signup.pug');
+});
+
 // Signup route
 router.post('/signup', async (req, res) => {
+  if(req.user !== undefined){
+    return res.redirect("/")
+  }
+
   const { username, email, rawPassword } = req.body;
   const { password} = utils.encryptUser(rawPassword);
 
