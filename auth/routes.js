@@ -9,24 +9,22 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 // send login page
-router.get('/login', (req, res) => {
+router.get('/login', authMiddleware, (req, res) => {
+  if(req.user !== undefined){
+    return res.redirect("/")
+  }
   res.render('../templates/login.pug');
 });
 
 // Login route
-router.post('/login', authMiddleware, async (req, res) => {
-  if(req.user !== undefined){
-    return res.redirect("/")
-  }
-
+router.post('/login', async (req, res) => {
   const {username, password} = req.body;
   
   const user = await User.findOne({username})?.select("_id password").exec()
   if (user && utils.verifyUser(password, user.password)){
     req.session.user = user._id;
     req.session.save();
-    res.send("looged in as "+username)
-    return
+    return res.redirect("/");
   }
 
   res.status(401).send("Invalid username or password")
@@ -39,16 +37,15 @@ router.get('/logout', authMiddleware, (req, res) => {
 });
 
 // sed signup page
-router.get('/signup', (req, res) => {
+router.get('/signup', authMiddleware, (req, res) => {
+  if(req.user !== undefined){
+    return res.redirect("/")
+  }
   res.render('../templates/signup.pug');
 });
 
 // Signup route
 router.post('/signup', async (req, res) => {
-  if(req.user !== undefined){
-    return res.redirect("/")
-  }
-
   const { username, email, rawPassword } = req.body;
   const { password} = utils.encryptUser(rawPassword);
 
@@ -62,7 +59,7 @@ router.post('/signup', async (req, res) => {
     await user.save();
     req.session.user = user._id;
     req.session.save();
-    res.send("done");
+    return res.redirect("/");
   } catch (error) {
     res.send(error);
   }

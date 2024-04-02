@@ -25,17 +25,18 @@ app.use(session({
     store:store,
 }))
 
-
 mongoose.connect("mongodb://localhost/test")
 
 app.get('/', authMiddleware, (req, res) => {
     if(req.user === undefined){
         return res.redirect("/auth/login")
     }
-    res.send("Hello World");
+    res.render('../templates/home.pug', { username: req.user.username });
 });
 
 app.use("/auth",route);
+app.use("/community", require('./set-data/community-routes'));
+// app.use("/post", require('./set-data/post-routes'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

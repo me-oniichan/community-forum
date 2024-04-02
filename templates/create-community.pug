@@ -1,0 +1,19 @@
+extends nav
+
+block cont
+  .container
+    .row
+      .col-md-6.col-md-offset-3.border.rounded.p-3(style='max-width: 600px; margin: 0 auto; margin-top: 20px;')
+        h1 Create a Community
+        form(method='post', action='/community/create')
+          .form-group
+            label(for='name') Name
+            input.form-control(type='text', name='name', id='name' value=name, required)
+            if error
+                small.text-danger This name is not available
+            br
+          .form-group
+            label(for='description') Description
+            textarea.form-control(cols="30", rows="10", type='text', name='description', id='description', required)= description
+            br
+          button.btn.btn-primary(type='submit') Create Community

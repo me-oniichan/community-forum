@@ -1,0 +1,19 @@
+extends base.pug
+
+block content
+    .container-xl
+        nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            a.navbar-brand(href='/') Community Forum
+            #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav.d-flex.align-items-center
+                li.nav-item
+                a.nav-link(href='/community/create') Create Commmunity
+                li.nav-item
+                a.nav-link(href='/about') Add Post
+                li.nav-item
+                a.nav-link(href='/')= username
+                li.nav-item
+                a.nav-link(href='/auth/logout')
+                    button.btn.btn-danger.btn-sm Logout 
+        div
+            block cont

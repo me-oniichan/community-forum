@@ -57,6 +57,7 @@ const communityGroupSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   description: {
     type: String,
@@ -87,10 +88,10 @@ const communityGroupSchema = new mongoose.Schema({
 });
 
 // Create the community group model
-const CommunityGroup = mongoose.model("CommunityGroup", communityGroupSchema);
+const Community = mongoose.model("CommunityGroup", communityGroupSchema);
 
 module.exports = {
-  CommunityGroup,
+  Community,
   Post,
   Comment,
 };
