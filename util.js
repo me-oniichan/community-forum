@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const {Community} = require('./set-data/schema')
+const {Community, Post, Comment} = require('./set-data/schema')
 
 function encryptUser(password){
   const salt = bcrypt.genSaltSync()
@@ -16,8 +16,12 @@ function getCommunity(communityName){
     return Community.findOne({name:communityName}).populate("createdBy")
 }
 
-function getCommunityById(communityId){
-    return Community.findById(communityId).populate("createdBy")
+async function getCommunityPosts(community){
+    let posts = await Post.find().populate({
+        path: 'user',
+    })
+    .where('community').equals(community).exec()
+    return posts;
 }
 
 async function getUserCommunities(user){
@@ -28,9 +32,25 @@ async function getUserCommunities(user){
     return communities;
 }
 
+async function getPost(postId){
+    return await Post.findById(postId).populate({
+        path: 'user',
+    }).exec().catch(e => {})
+}
+
+async function getPostComments(post){
+    return await Promise.all(post.comments.map(async (comment) => {
+        return await Comment.findById(comment).populate({
+            path: 'user',
+        }).exec()
+}))}
+
 module.exports = {
     encryptUser,
     verifyUser,
     getCommunity,
-    getUserCommunities
+    getUserCommunities,
+    getCommunityPosts,
+    getPost,
+    getPostComments
 }

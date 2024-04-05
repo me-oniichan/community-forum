@@ -1,0 +1,50 @@
+extends nav
+
+
+block cont
+  .text-muted
+    span= post.user.username
+  h2= post.title
+  p= post.content
+  hr
+  div.border.rounded.p-2.mb-2
+    form.form-group.form-floating(action='/post/comment' method='POST')
+      input(type="text" name="postId" value=post._id hidden)
+      textarea.form-control#comment(name='comment' rows='1')
+      label.floatingTextarea(for='comment') Comment
+      div#comment-footer.mt-2.gap-2(style='display: none;')
+        buton.btn.btn-sm.btn-secondary#cancel(type='button') Clear
+        button.btn.btn-primary.btn-sm#submit-comment(type='submit') Submit
+  
+  div
+    each comment in comments
+      .card.mb-2
+        .card-header.pb-1.pt-1
+          .card-subtitle.mb-1.text-muted
+            span= comment.user.username
+        .card-body
+          .card-text 
+            p= comment.comment
+
+
+
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      const comment = document.querySelector('#comment');
+      const cancel = document.querySelector('#cancel');
+      const block = document.querySelector('#comment-footer');
+      cancel.addEventListener('click', () => {
+        comment.value = '';
+        comment.focus();
+      });
+
+      comment.addEventListener('blur', ()=>{
+        if (comment.value === '') {
+          block.style.display = 'none';
+        }
+      });
+
+      comment.addEventListener('focus', ()=>{
+        block.style.display = 'flex';
+      });
+    });

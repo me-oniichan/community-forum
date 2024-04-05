@@ -37,7 +37,7 @@ app.get('/', authMiddleware, (req, res) => {
 app.use("/auth",route);
 app.use("/community", require('./set-data/community-routes'));
 app.use("/post", require('./set-data/post-routes'));
-app.use("/community", require('./get-data/views'));
+app.use("/", require('./get-data/views'));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
