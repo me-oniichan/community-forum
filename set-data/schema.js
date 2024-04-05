@@ -48,6 +48,11 @@ const PostSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  community: {
+    type: Schema.Types.ObjectId,
+    ref: "CommunityGroup",
+    required: true,
+  },
 });
 
 const Post = mongoose.model("Post", PostSchema);
@@ -78,13 +83,6 @@ const communityGroupSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
 });
 
 // Create the community group model

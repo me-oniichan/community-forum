@@ -16,10 +16,17 @@ router.get('/create', authMiddleware, (req, res) => {
   if (req.user === undefined) {
     return res.redirect("/auth/login");
   }
-  res.render('../templates/create-community.pug', { name: ""});
+  res.render('../templates/create-community.pug', {
+    name: "",
+    username: req.user.username,
+  });
 });
 
 router.post('/create', authMiddleware, async (req, res) => {
+  if(req.user === undefined){
+    return res.status(401).send("Unauthorized")
+  }
+
   const { name, description } = req.body;
 
   const community = new Community({
@@ -30,7 +37,10 @@ router.post('/create', authMiddleware, async (req, res) => {
 
   try {
     await community.save();
-    res.send("Community created");
+    req.user.communities.push(community);
+    await req.user.save();
+
+    return res.redirect('/community/'+name);
   } catch (e) {
     if (e.code === 11000) {
       res.render('../templates/create-community.pug', { error: true, name, description})
@@ -41,3 +51,4 @@ router.post('/create', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

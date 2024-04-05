@@ -1,0 +1,23 @@
+extends nav 
+
+block cont
+  .container
+    .row
+      .col-md-6.col-md-offset-3.border.rounded.p-3(style='max-width: 600px; margin: 0 auto; margin-top: 20px;')
+        h1 Create a Post
+        form(method='post', action='/post/create')
+          div.form-group
+            label.mb-2(for="community") Community
+            select#community.form-select(name="community", required)
+              each community in communities
+                option(value=community.name)= community.name
+          br
+          div.form-group
+            label.mb-2(for="title") Title
+            input#title.form-control(name="title", type="text", required)
+          br
+          div.form-group
+            label.mb-2(for="content") Content
+            textarea#content.form-control(name="content", rows="5", required)
+          br
+          button.btn.btn-primary(type="submit") Create Post

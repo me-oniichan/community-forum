@@ -20,6 +20,13 @@ const userSchema = new mongoose.Schema({
     default: Date.now
   },
 
+  communities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Community'
+    }
+  ]
+
 });
 
 const User = mongoose.model('User', userSchema);
