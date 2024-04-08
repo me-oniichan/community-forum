@@ -32,6 +32,10 @@ async function getUserCommunities(user){
     return communities;
 }
 
+async function isUserInCommunity(user, community){
+    return await user.communities.find(e => e._id.equals(community._id)).exec()? true: false;
+}
+
 async function getPost(postId){
     return await Post.findById(postId).populate({
         path: 'user',
@@ -45,6 +49,16 @@ async function getPostComments(post){
         }).exec()
 }))}
 
+async function getSortedPosts(){
+    let posts = await Post.find().populate({
+        path: 'user community',
+    }).exec()
+    posts.sort((a, b) => {
+        return b.createdAt - a.createdAt
+    })
+    return posts;
+}
+
 module.exports = {
     encryptUser,
     verifyUser,
@@ -52,5 +66,6 @@ module.exports = {
     getUserCommunities,
     getCommunityPosts,
     getPost,
-    getPostComments
+    getPostComments,
+    getSortedPosts
 }

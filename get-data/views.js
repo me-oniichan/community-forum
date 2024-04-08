@@ -14,9 +14,10 @@ router.get('/community/:communityName', authMiddleware ,async (req, res) => {
         return res.status(404).send("Community not found");
     }
         
+//    const isJoined = await utils.isUserInCommunity(req.user, community); 
     const posts = await utils.getCommunityPosts(community);
-
-    res.render('../templates/community-view.pug', { community, username: req.user?.username, posts });
+    const user = req.user;
+    res.render('../templates/community-view.pug', { community, username: req.user?.username, posts, user});
 });
 
 // get post

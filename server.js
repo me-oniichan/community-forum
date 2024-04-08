@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const route = require('./auth/routes');
 const session = require('express-session');
 const { authMiddleware } = require('./middleware');
+const { getSortedPosts } = require('./util');
 const mongoSession = require('connect-mongodb-session')(session);
 require('dotenv').config();
 
@@ -16,6 +17,8 @@ const store = new mongoSession({
 const app = express();
 const port = 3000;
 
+
+
 app.set('view engine', 'pug');
 
 app.use(session({
@@ -27,11 +30,12 @@ app.use(session({
 
 mongoose.connect("mongodb://localhost/test")
 
-app.get('/', authMiddleware, (req, res) => {
+app.get('/', authMiddleware, async (req, res) => {
     if(req.user === undefined){
         return res.redirect("/auth/login")
     }
-    res.render('../templates/home.pug', { username: req.user.username });
+    const recent_posts = await getSortedPosts();
+    res.render('../templates/home.pug', { username: req.user.username, recent_posts });
 });
 
 app.use("/auth",route);

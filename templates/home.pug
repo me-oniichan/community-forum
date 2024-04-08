@@ -1,5 +1,14 @@
 extends nav.pug
 
 block cont
-    h1 Home
-    p Welcome to the home page
+  h2 Explore
+  each post in recent_posts
+    .card.mb-1
+      .card-header.pb-1.pt-1
+        .card-subtitle.mb-1.text-muted
+          a(href=`/community/${post.community.name}`)= post.community.name
+        .card-title 
+          h6= post.title
+      a.card-body(href=`/post/${post._id}`)
+        .card-text 
+          p= post.content

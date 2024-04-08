@@ -1,7 +1,13 @@
 extends nav 
 
 block cont
-  h2= community.name
+  div.d-flex.align-items-center.gap-2
+    h2= community.name
+    if user
+      if user.communities.includes(community._id)
+        a.btn.btn-danger.btn-sm(href=`/community/leave/${community.name}`) Leave
+      else
+        a.btn.btn-primary.btn-sm(href=`/community/join/${community.name}`) Join
   p= community.description
   hr
 
@@ -10,7 +16,6 @@ block cont
       .card-header.pb-1.pt-1
         .card-subtitle.mb-1.text-muted
           span= post.user.username
-            span= comment.createdAt
         .card-title 
           h6= post.title
       a.card-body(href=`/post/${post._id}`)
