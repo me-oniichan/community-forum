@@ -32,6 +32,11 @@ async function getUserCommunities(user){
     return communities;
 }
 
+async function getUserComments(user){
+    let comments = await Comment.find({user: user}).exec();
+    return comments;
+}
+
 async function isUserInCommunity(user, community){
     return await user.communities.find(e => e._id.equals(community._id)).exec()? true: false;
 }
@@ -67,5 +72,6 @@ module.exports = {
     getCommunityPosts,
     getPost,
     getPostComments,
-    getSortedPosts
+    getSortedPosts,
+    getUserComments
 }

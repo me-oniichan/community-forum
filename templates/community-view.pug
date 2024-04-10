@@ -15,7 +15,7 @@ block cont
     .card.mb-1
       .card-header.pb-1.pt-1
         .card-subtitle.mb-1.text-muted
-          span= post.user.username
+          a(href=`/user/${post.user.username}`)= post.user.username
         .card-title 
           h6= post.title
       a.card-body(href=`/post/${post._id}`)

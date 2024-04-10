@@ -3,7 +3,7 @@ extends nav
 
 block cont
   .text-muted
-    span= post.user.username
+    a(href=`/user/${post.user.username}`)= post.user.username
   h2= post.title
   p= post.content
   hr
@@ -21,7 +21,7 @@ block cont
       .card.mb-2
         .card-header.pb-1.pt-1
           .card-subtitle.mb-1.text-muted
-            span= comment.user.username
+            a(href=`/user/${comment.user.username}`)= comment.user.username
         .card-body
           .card-text 
             p= comment.comment

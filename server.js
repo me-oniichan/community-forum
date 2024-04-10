@@ -41,6 +41,7 @@ app.get('/', authMiddleware, async (req, res) => {
 app.use("/auth",route);
 app.use("/community", require('./set-data/community-routes'));
 app.use("/post", require('./set-data/post-routes'));
+app.use("/user", require('./get-data/dashboard'));
 app.use("/", require('./get-data/views'));
 
 app.listen(port, () => {
